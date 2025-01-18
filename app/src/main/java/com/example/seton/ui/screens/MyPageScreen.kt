@@ -2,6 +2,7 @@ package com.example.seton.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,17 @@ fun MyPageScreen(
             BottomNavigation(navController)
         }
     ) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ){
+            Image(painter = painterResource(id = R.drawable.groupp),
+                contentDescription = null,
+                modifier = Modifier.align(Alignment.TopCenter).padding(top = 130.dp)
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -45,9 +57,7 @@ fun MyPageScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Image(painter = painterResource(id = R.drawable.groupp),
-                contentDescription = null,
-                )
+
             TextButton(
                 onClick = {}
             ) {

@@ -23,7 +23,7 @@ import com.example.seton.ui.theme.Skyblue
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavItem("home", "홈", painterResource(id = R.drawable.baseline_home_24)),
-        BottomNavItem("bookmark", "북마크", painterResource(id = R.drawable.baseline_bookmark_24)),
+        BottomNavItem("bookmark", "좋아요", painterResource(id = R.drawable.baseline_thumb_up_off_alt_24)),
         BottomNavItem("mypage", "마이페이지", painterResource(id = R.drawable.baseline_contact_page_24)),
     )
 
