@@ -35,14 +35,11 @@ class SignInActivity : AppCompatActivity() {
             //val rtoken = uri.getQueryParameter("r")
             Log.e("SignInActivity", "Token: $token")
             // 해당 화면으로 이동할 인텐트 생성
-            val intent = Intent(this, MainActivity::class.java).apply {
-                Log.e("token",token.toString())
-                // pref에 저장
-                val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-                sharedPreferences.edit().apply {
-                    putString("token", token)
-                    apply()
-                }
+            val intent = Intent(this, MainActivity::class.java)
+            val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+            sharedPreferences.edit().apply {
+                putString("token", token)
+                apply()
             }
             startActivity(intent)
         }
