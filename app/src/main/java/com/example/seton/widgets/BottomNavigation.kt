@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination
 import com.example.seton.R
+import com.example.seton.ui.theme.Skyblue
 
 @Composable
 fun BottomNavigation(navController: NavController) {
@@ -27,8 +28,8 @@ fun BottomNavigation(navController: NavController) {
     val currentDestination = currentBackStackEntry.value?.destination
 
     NavigationBar(
-        containerColor = Color.White,
-        contentColor = Color.Black,
+        containerColor = Skyblue,
+        contentColor = Color.Gray,
         modifier = Modifier
     ) {
         items.forEach { item ->
@@ -36,10 +37,11 @@ fun BottomNavigation(navController: NavController) {
                 icon = {
                     Icon(
                         painter = item.icon,
+                        tint = Color.White,
                         contentDescription = item.label
                     )
                 },
-                label = { Text(item.label) },
+                label = { Text(item.label,color = Color.White) },
                 selected = isSelected(currentDestination, item.route),
                 onClick = {
                     if (currentDestination?.route != item.route) {
