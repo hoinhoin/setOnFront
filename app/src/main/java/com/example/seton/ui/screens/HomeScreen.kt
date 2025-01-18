@@ -148,7 +148,12 @@ fun HomeScreen(
                       .align(Alignment.TopStart)
                       .padding(top = 170.dp) //이미지와 텍스트 사이 벌리기
               ) {
-                  Row {
+                  Row(
+                      //modifier = Modifier.padding(),
+                      verticalAlignment = Alignment.CenterVertically,
+
+                      ) {
+                      Spacer(modifier = Modifier.width(14.dp))
                       Image(painter = painterResource(id = R.drawable.group),
                           contentDescription = "")
                       Text(
@@ -158,7 +163,7 @@ fun HomeScreen(
                           //fontsize =
                           text = "빈집털이"
                       )
-                      Spacer(modifier = Modifier.padding(70.dp))
+                      Spacer(modifier = Modifier.width(90.dp))
                       OutlinedButton(onClick = {
                           filterState.value = true
                       },

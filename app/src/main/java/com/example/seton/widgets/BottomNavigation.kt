@@ -1,5 +1,6 @@
 package com.example.seton.widgets
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
@@ -41,12 +42,14 @@ fun BottomNavigation(navController: NavController) {
 
                 icon = {
                     Column(
-                        horizontalAlignment = CenterHorizontally
+                        horizontalAlignment = CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(2.dp) // 아이콘과 텍스트 간 간격 최소화
+
                     ) { Icon(
                         painter = item.icon,
                         tint = Color.White,
                         contentDescription = item.label,
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier.size(27.dp)
                     )
                         Text(
                             text = item.label,
