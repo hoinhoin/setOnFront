@@ -27,3 +27,12 @@ data class ApiResponse(
     val status: Int,
     val timestamp: String
 )
+
+data class LikedHousesResponse(
+    val houses: List<House>
+)
+
+data class MyPageResponse(
+    val user: User,
+    val houses: List<House>
+)

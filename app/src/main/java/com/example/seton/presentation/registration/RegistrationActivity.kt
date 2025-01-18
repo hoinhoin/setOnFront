@@ -2,12 +2,15 @@ package com.example.seton.presentation.registration
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
@@ -15,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +26,7 @@ import com.example.seton.R
 import com.example.seton.databinding.ActivityRegistrationBinding
 import com.example.seton.di.RetrofitInstance
 import com.example.seton.di.createPartFromString
+import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -45,6 +50,7 @@ class RegistrationActivity : AppCompatActivity() {
     private val selectedImages = mutableListOf<Uri>() // 내부 사진 URI 리스트
     private var selectedThumbnailUri: Uri? = null // 썸네일 URI
     private lateinit var adapter: InnerPhotoAdapter
+    private val tags = mutableSetOf<String>() // 태그 저장용
 
     // ActivityResultLauncher를 onCreate 이전에 선언
     private val photoPickerLauncher =
@@ -79,6 +85,11 @@ class RegistrationActivity : AppCompatActivity() {
             insets
         }
 
+        binding.ivCamera.updateLayoutParams {
+            width = 60.dpToPx()
+            height = 60.dpToPx()
+        }
+
         adapter = InnerPhotoAdapter(selectedImages)
         binding.rvInnerPhotos.adapter = adapter
         binding.rvInnerPhotos.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -111,6 +122,31 @@ class RegistrationActivity : AppCompatActivity() {
 //            }
             uploadData()
         }
+
+        binding.etInputRegistrationTag.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE ||
+                (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                addTag(v.text.toString())
+                v.text = ""
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun addTag(tag: String) {
+        if (tag.isNotBlank() && tags.add(tag)) {
+            val chip = Chip(this).apply {
+                text = tag
+                isCloseIconVisible = true
+                setOnCloseIconClickListener {
+                    tags.remove(tag)
+                    binding.chipGroupTags.removeView(this)
+                }
+            }
+            binding.chipGroupTags.addView(chip)
+        }
     }
 
     private fun validateInputs(): Boolean {
@@ -135,8 +171,7 @@ class RegistrationActivity : AppCompatActivity() {
             put("description", binding.etInputRegistrationDetail.text.toString())
             put("price", binding.etInputRegistrationPrice.text.toString().toIntOrNull() ?: 0)
             put("tags", JSONArray().apply {
-                put("tag1")
-                put("tag2")
+                tags.forEach { put(it) }
             })
         }
 
@@ -210,4 +245,6 @@ private fun getFileName(context: Context, fileUri: Uri): String? {
     }
     return name
 }
+
+private fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 
