@@ -1,18 +1,23 @@
 package com.example.seton.widgets
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination
 import com.example.seton.R
+import com.example.seton.ui.theme.Skyblue
 
 @Composable
 fun BottomNavigation(navController: NavController) {
@@ -27,19 +32,29 @@ fun BottomNavigation(navController: NavController) {
     val currentDestination = currentBackStackEntry.value?.destination
 
     NavigationBar(
-        containerColor = Color.White,
-        contentColor = Color.Black,
-        modifier = Modifier
+        containerColor = Skyblue,
+        contentColor = Color.Gray,
+        modifier = Modifier,
     ) {
         items.forEach { item ->
             NavigationBarItem(
+
                 icon = {
-                    Icon(
+                    Column(
+                        horizontalAlignment = CenterHorizontally
+                    ) { Icon(
                         painter = item.icon,
-                        contentDescription = item.label
+                        tint = Color.White,
+                        contentDescription = item.label,
+                        modifier = Modifier.size(30.dp)
                     )
+                        Text(
+                            text = item.label,
+                            color = Color.White,
+                            modifier = Modifier
+                        )}
                 },
-                label = { Text(item.label) },
+                //label = { Text(item.label,color = Color.White) },
                 selected = isSelected(currentDestination, item.route),
                 onClick = {
                     if (currentDestination?.route != item.route) {
