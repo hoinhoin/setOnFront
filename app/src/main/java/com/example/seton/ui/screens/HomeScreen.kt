@@ -111,6 +111,8 @@ fun HomeScreen(
                       .padding(top = 170.dp) //이미지와 텍스트 사이 벌리기
               ) {
                   Row {
+                      Image(painter = painterResource(id = R.drawable.group),
+                          contentDescription = "")
                       Text(
                           modifier = Modifier.padding(8.dp),
                           textAlign = TextAlign.Left,
