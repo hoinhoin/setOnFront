@@ -8,6 +8,8 @@ import androidx.compose.foundation.content.MediaType.Companion.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -17,14 +19,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -34,26 +42,36 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import com.example.seton.R
+import com.example.seton.data.House
+import com.example.seton.di.RetrofitInstance
+import com.example.seton.presentation.housedetail.HouseDetailActivity
 import com.example.seton.presentation.registration.RegistrationActivity
 import com.example.seton.widgets.BottomNavigation
+import com.google.android.material.chip.Chip
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -65,10 +83,30 @@ fun HomeScreen(
       }
   ) {
       val context = LocalContext.current
+      val scope = rememberCoroutineScope()
+      var houses by remember { mutableStateOf<List<House>>(emptyList()) }
+      var isLoading by remember { mutableStateOf(true) }
+      var error by remember { mutableStateOf<String?>(null) }
       val filterState = remember {
           mutableStateOf(false)
       }
       val sheetState = rememberModalBottomSheetState()
+
+      // 데이터 로드 함수
+      LaunchedEffect(key1 = true) {
+          try {
+              val response = RetrofitInstance.getApiService(context).getHouses()
+              if (response.isSuccessful) {
+                  houses = response.body() ?: emptyList()
+              } else {
+                  error = "데이터를 불러오는데 실패했습니다."
+              }
+          } catch (e: Exception) {
+              error = e.localizedMessage
+          } finally {
+              isLoading = false
+          }
+      }
 
 
       //필터 조건 저장용 상태
@@ -169,6 +207,39 @@ fun HomeScreen(
 
                       }
                   }*/
+                  when {
+                      isLoading -> {
+                          CircularProgressIndicator(
+                              modifier = Modifier.align(Alignment.CenterHorizontally)
+                          )
+                      }
+                      error != null -> {
+                          Text(
+                              text = error ?: "알 수 없는 오류가 발생했습니다.",
+                              color = Color.Red,
+                              modifier = Modifier.padding(16.dp)
+                          )
+                      }
+                      else -> {
+                          LazyColumn(
+                              modifier = Modifier
+                                  .fillMaxWidth()
+                                  .weight(1f)
+                          ) {
+                              items(houses) { house ->
+                                  HouseItem(
+                                      house = house,
+                                      onItemClick = { houseId ->
+                                          val intent = Intent(context, HouseDetailActivity::class.java).apply {
+                                              putExtra("houseId", houseId)
+                                          }
+                                          context.startActivity(intent)
+                                      }
+                                  )
+                              }
+                          }
+                      }
+                  }
 
               }
               OutlinedButton(
@@ -191,6 +262,88 @@ fun HomeScreen(
 
       }
   }
+}
+
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun HouseItem(house: House,
+              onItemClick: (Long) -> Unit // 클릭 핸들러 추가
+) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable {
+                onItemClick(house.houseId)
+            },
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            // 썸네일 이미지
+            AsyncImage(
+                model = house.thumbnailUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // 제목
+            Text(
+                text = house.title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+
+            // 주소
+            Text(
+                text = house.address,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray
+            )
+
+            // 가격과 평수
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "${house.price}만원",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "${house.size}평",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+
+            // 태그들
+            FlowRow(
+                modifier = Modifier.padding(vertical = 4.dp)
+            ) {
+                house.tags.forEach { tag ->
+                    AssistChip(
+                        onClick = { },
+                        label = { Text(tag) },
+                        modifier = Modifier.padding(end = 4.dp),
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable

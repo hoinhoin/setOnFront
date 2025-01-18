@@ -13,33 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-//@Module
-//@InstallIn(SingletonComponent::class)
-//object ApiModule {
-//
-//    private const val BASE_URL = "http://34.223.224.180:8080/"
-//
-//    @Singleton
-//    @Provides
-//    fun provideOkHttpClient(): OkHttpClient {
-//        val interceptor = HttpLoggingInterceptor()
-//        interceptor.level = HttpLoggingInterceptor.Level.BODY
-//        return OkHttpClient.Builder()
-//            .addInterceptor(AuthorizationInterceptor())
-//            .addNetworkInterceptor(interceptor)
-//            .build()
-//    }
-//
-//    @Singleton
-//    @Provides
-//    fun provideRetrofit(client: OkHttpClient): Retrofit {
-//        return Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .client(client)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//}
 
 object RetrofitInstance {
     private const val BASE_URL = "http://34.223.224.180:8080/"
