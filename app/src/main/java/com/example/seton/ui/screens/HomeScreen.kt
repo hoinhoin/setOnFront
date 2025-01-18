@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
+import com.example.seton.presentation.housedetail.HouseDetailActivity
 import com.example.seton.presentation.houseregistration.HouseRegistrationActivity
 import com.example.seton.widgets.BottomNavigation
 @Composable
@@ -54,7 +55,7 @@ fun HomeScreen(
     // 버튼의 모서리는 8dp로 설정하세요.
     // 버튼의 텍스트 크기는 16sp로 설정하세요.
     Button(
-        onClick = { val intent = Intent(context, HouseRegistrationActivity::class.java)
+        onClick = { val intent = Intent(context, HouseDetailActivity::class.java)
             startActivity(context, intent, null) },
         modifier = Modifier
             .padding(16.dp)
