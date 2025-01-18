@@ -14,14 +14,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.seton.ui.theme.SetOnTheme
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SetOnTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    MyApp(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -30,18 +31,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
+/*
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    SetOnTheme {
-        Greeting("Android")
+fun MyAppPreview() {
+    MobileAppDevTheme {
+        MyApp()
     }
-}
+}*/
