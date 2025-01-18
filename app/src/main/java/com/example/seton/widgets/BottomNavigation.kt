@@ -1,14 +1,18 @@
 package com.example.seton.widgets
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination
@@ -30,18 +34,27 @@ fun BottomNavigation(navController: NavController) {
     NavigationBar(
         containerColor = Skyblue,
         contentColor = Color.Gray,
-        modifier = Modifier
+        modifier = Modifier,
     ) {
         items.forEach { item ->
             NavigationBarItem(
+
                 icon = {
-                    Icon(
+                    Column(
+                        horizontalAlignment = CenterHorizontally
+                    ) { Icon(
                         painter = item.icon,
                         tint = Color.White,
-                        contentDescription = item.label
+                        contentDescription = item.label,
+                        modifier = Modifier.size(30.dp)
                     )
+                        Text(
+                            text = item.label,
+                            color = Color.White,
+                            modifier = Modifier
+                        )}
                 },
-                label = { Text(item.label,color = Color.White) },
+                //label = { Text(item.label,color = Color.White) },
                 selected = isSelected(currentDestination, item.route),
                 onClick = {
                     if (currentDestination?.route != item.route) {
