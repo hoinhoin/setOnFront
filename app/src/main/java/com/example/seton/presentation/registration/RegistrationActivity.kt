@@ -26,8 +26,14 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okio.BufferedSink
+import okio.source
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 
 class RegistrationActivity : AppCompatActivity() {
@@ -98,11 +104,12 @@ class RegistrationActivity : AppCompatActivity() {
 
         // 등록 버튼 클릭 시 데이터 업로드
         binding.btnRegistration.setOnClickListener {
-            if (validateInputs()) {
-                uploadData()
-            } else {
-                Toast.makeText(this, "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show()
-            }
+//            if (validateInputs()) {
+//                uploadData()
+//            } else {
+//                Toast.makeText(this, "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show()
+//            }
+            uploadData()
         }
     }
 
@@ -119,14 +126,23 @@ class RegistrationActivity : AppCompatActivity() {
     private fun uploadData() {
         val context = this
 
-        // 문자열 데이터를 RequestBody로 변환
-        val title = createPartFromString(binding.etInputRegistrationTitle.text.toString())
-        val phoneNumber = createPartFromString(binding.etInputRegistrationPhoneNumber.text.toString())
-        val address = createPartFromString(binding.etInputRegistrationLocation.text.toString())
-        val size = createPartFromString(binding.etInputRegistrationSize.text.toString())
-        val description = createPartFromString(binding.etInputRegistrationDetail.text.toString())
-        val price = createPartFromString(binding.etInputRegistrationPrice.text.toString())
-        val tags = createPartFromString("[\"tag1\", \"tag2\"]") // JSON 형식의 태그 데이터 예시
+        // JSON 데이터 생성
+        val requestData = JSONObject().apply {
+            put("title", binding.etInputRegistrationTitle.text.toString())
+            put("phoneNumber", binding.etInputRegistrationPhoneNumber.text.toString())
+            put("address", binding.etInputRegistrationLocation.text.toString())
+            put("size", binding.etInputRegistrationSize.text.toString().toIntOrNull() ?: 0)
+            put("description", binding.etInputRegistrationDetail.text.toString())
+            put("price", binding.etInputRegistrationPrice.text.toString().toIntOrNull() ?: 0)
+            put("tags", JSONArray().apply {
+                put("tag1")
+                put("tag2")
+            })
+        }
+
+        // RequestBody 생성
+        val request = requestData.toString()
+            .toRequestBody("application/json".toMediaTypeOrNull())
 
         // 썸네일 파일 준비
         val thumbnailPart = selectedThumbnailUri?.let {
@@ -138,32 +154,32 @@ class RegistrationActivity : AppCompatActivity() {
             return
         }
 
-        // 내부 사진 파일 준비
+        // 내부 사진 파일들 준비
         val imageParts = selectedImages.map {
             prepareFilePart(context, "images", it)
         }
 
-        // Retrofit API 호출
+        // API 호출
         lifecycleScope.launch {
             try {
-                val apiService = RetrofitInstance.getApiService(context)
-                val response = apiService.uploadData(
-                    title = title,
-                    phoneNumber = phoneNumber,
-                    address = address,
-                    size = size,
-                    description = description,
-                    price = price,
-                    tags = tags,
+                val response = RetrofitInstance.getApiService(context).uploadData(
+                    request = request,
                     thumbnail = thumbnailPart,
                     images = imageParts
                 )
-                Log.d("Upload", "Upload successful: $response")
-                Toast.makeText(context, "등록 완료!", Toast.LENGTH_SHORT).show()
-                finish() // 업로드 성공 후 액티비티 종료
+                Log.d("Upload", "Upload successful with response: $response")
+
+                if (response.code() == 200) {
+                    Toast.makeText(context, "등록 완료!", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+
+                    Log.e("Upload", "Upload failed with error: $response")
+                    Toast.makeText(context, "등록 실패: ${response}", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
                 Log.e("Upload", "Upload failed", e)
-                Toast.makeText(context, "등록 실패!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "등록 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -171,24 +187,17 @@ class RegistrationActivity : AppCompatActivity() {
 }
 fun prepareFilePart(context: Context, partName: String, fileUri: Uri): MultipartBody.Part {
     val contentResolver: ContentResolver = context.contentResolver
-    val fileName = getFileName(context, fileUri)
+    val fileName = getFileName(context, fileUri) ?: "temp_file"
 
-    // 임시 파일 생성
-    val tempFile = File(context.cacheDir, fileName ?: "temp_file")
-    val inputStream: InputStream? = contentResolver.openInputStream(fileUri)
-    val outputStream = FileOutputStream(tempFile)
+    // 파일 데이터를 메모리에 읽어옴
+    val byteArray = contentResolver.openInputStream(fileUri)?.use {
+        it.readBytes()
+    } ?: throw IOException("Could not read file")
 
-    // InputStream 데이터를 임시 파일에 복사
-    inputStream?.use { input ->
-        outputStream.use { output ->
-            input.copyTo(output)
-        }
-    }
+    // RequestBody 생성
+    val requestBody = byteArray.toRequestBody("image/*".toMediaTypeOrNull())
 
-    // 파일을 RequestBody로 변환
-    val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), tempFile)
-
-    return MultipartBody.Part.createFormData(partName, tempFile.name, requestFile)
+    return MultipartBody.Part.createFormData(partName, fileName, requestBody)
 }
 
 private fun getFileName(context: Context, fileUri: Uri): String? {
