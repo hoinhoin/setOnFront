@@ -159,7 +159,16 @@ fun HomeScreen(
                       }
                   }
                   Spacer(modifier = Modifier.height(16.dp))
+                    /*
+                  LazyColumn {
+                      items(filteredData) { item ->
+                          Text(
+                              text = item,
+                              modifier = Modifier.padding(8.dp)
+                          )
 
+                      }
+                  }*/
 
               }
               OutlinedButton(
@@ -191,7 +200,12 @@ fun FilterDialog(
 
     val regions = listOf(
         "강원" to listOf("강릉시","고성군","동해시", "삼척시", "양구군", "양양군", "영월군", "원주시","인제군", "정선군", "철원군","춘천시"),
-        "대전" to listOf("양구군", "양양군")
+        "대전" to listOf("대덕구", "동구", "서구", "유성구", "중구"),
+        "세종" to listOf("세종시"),
+        "충남" to listOf("계룡시", "공주시", "금산군", "논산시", "당진시", "보령시", "부여군", "서산시", "서천군", "아산시", "예산군", "천안시", "청양군", "태안군", "홍성군"),
+        "충북" to listOf("괴산군"),
+        "울산" to listOf("남구", "동구", "북구", "울주군", "중구"),
+        "경남" to listOf("거제시", "거창군", "고성군", "김해시", "남해군", "밀양시", "사천시", "산청군", "양산시","의령군", "진주시", "창년군", "창원시", "통영시", "하동군", "함안군", "함양군", "합천군")
     )
     var selectedMainRegion by remember { mutableStateOf<String?>(null) }
     var selectedSubRegion by remember { mutableStateOf<String?>(null) }
