@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".presentation.houseregistration.HouseRegistrationActivity" />
+        <activity android:name=".presentation.signup.SignUpActivity" />
     </application>
 
 </manifest>

@@ -77,6 +77,11 @@ dependencies {
     kapt ("com.google.dagger:hilt-compiler:2.52")
 
     implementation("com.android.billingclient:billing-ktx:7.0.0")
+
+    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+
+    implementation ("com.google.accompanist:accompanist-flowlayout:0.30.1")
 }
 
 kapt {
