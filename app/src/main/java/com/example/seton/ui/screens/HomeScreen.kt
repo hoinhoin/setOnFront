@@ -1,5 +1,6 @@
 package com.example.seton.ui.screens
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,12 +44,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import com.example.seton.R
+import com.example.seton.presentation.registration.RegistrationActivity
 import com.example.seton.widgets.BottomNavigation
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +64,7 @@ fun HomeScreen(
           BottomNavigation(navController)
       }
   ) {
+      val context = LocalContext.current
       val filterState = remember {
           mutableStateOf(false)
       }
@@ -158,7 +163,11 @@ fun HomeScreen(
 
               }
               OutlinedButton(
-                  onClick = {  },
+                  onClick = {
+                      // RegistrationActivity로 이동
+                        val intent = Intent(context, RegistrationActivity::class.java)
+                        startActivity(context, intent, null)
+                  },
                   //shape = RoundedCornerShape(10.dp),
                   modifier = Modifier
                       .align(Alignment.BottomCenter)

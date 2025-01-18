@@ -21,11 +21,13 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:host="action" android:scheme="binzip" />
             </intent-filter>
         </activity>
         <activity android:name=".presentation.houseregistration.HouseRegistrationActivity" />
         <activity android:name=".presentation.signup.SignUpActivity" />
         <activity android:name=".presentation.housedetail.HouseDetailActivity" />
+        <activity android:name=".presentation.registration.RegistrationActivity" />
 <!--        <activity-->
 <!--            android:name=".presentation.registration.RegistrationActivity"-->
 <!--            android:exported="true"-->

@@ -208,9 +208,11 @@
                 android:layout_width="0dp"
                 android:layout_height="168dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_registration_inner_photo" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_registration_inner_photo"
+                tools:visibility="visible" />
 
             <View
                 android:id="@+id/view_add_inner_photo"
@@ -225,10 +227,10 @@
                 android:id="@+id/iv_add_inner_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_photo"
                 android:contentDescription="Add Photo"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_add_photo"
                 app:layout_constraintBottom_toBottomOf="@id/rv_inner_photos"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
