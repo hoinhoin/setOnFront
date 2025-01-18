@@ -21,10 +21,9 @@ fun SignUpScreen(
 ) {
     val context = LocalContext.current
 
-    // 카카오 로그인 버튼 UI
     Button(
         onClick = {
-            val url = "https://kauth.kakao.com/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code"
+            val url = "http://34.223.224.180:8080/oauth2/authorization/kakao"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             context.startActivity(intent) // 카카오 로그인 웹 페이지로 이동
         },

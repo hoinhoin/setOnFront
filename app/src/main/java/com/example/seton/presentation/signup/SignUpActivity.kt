@@ -24,10 +24,7 @@ class SignUpActivity : ComponentActivity() {
         setContent {
             SignUpScreen(
                 onLoginSuccess = { token ->
-                    // 로그인 성공 시 MainActivity로 이동
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    navigateToMainActivity(token)
                 }
             )
         }
@@ -39,35 +36,40 @@ class SignUpActivity : ComponentActivity() {
     }
 
     private fun handleAppLink(intent: Intent) {
+        Log.e("SignUpActivity", "Handling app link: $intent")
         intent.data?.let { uri: Uri ->
             when (uri.path) {
                 "/callback" -> {
-                    // URI의 쿼리 파라미터를 가져옴
                     val token = uri.getQueryParameter("token")
-                    //val rtoken = uri.getQueryParameter("r")
+                    Log.e("SignUpActivity", "Token: $token")
+                    val refreshToken = uri.getQueryParameter("r")
 
-                    // 토큰을 저장
                     if (token != null) {
-                        // "token" 키로 토큰을 저장
                         Log.d("SignUpActivity", "Token: $token")
-                        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-                        sharedPreferences.edit().apply {
-                            putString("token", token)
-                            apply()
-                        }
-
-                        // MainActivity로 이동
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        saveToken(token)
+                        navigateToMainActivity(token)
                     } else {
                         Log.e("SignUpActivity", "Token is missing in the URI.")
                     }
                 }
-                else -> {
-                    Log.e("SignUpActivity", "Unhandled URI path: ${uri.path}")
-                }
+                else -> Log.e("SignUpActivity", "Unhandled URI path: ${uri.path}")
             }
         }
+    }
+
+    private fun saveToken(token: String) {
+        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        sharedPreferences.edit().apply {
+            putString("token", token)
+            apply()
+        }
+    }
+
+    private fun navigateToMainActivity(token: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("token", token) // 필요하면 MainActivity로 토큰 전달
+        }
+        startActivity(intent)
+        finish()
     }
 }
