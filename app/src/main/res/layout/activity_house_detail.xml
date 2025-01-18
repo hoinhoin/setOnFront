@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/house_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.housedetail.HouseDetailActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_house_detail"
+        style="@style/AppToolbar.Navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="빈집공고"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/AppTextTitle.S20" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/toolbar_house_detail"
+        app:layout_constraintStart_toStartOf="@id/toolbar_house_detail"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_house_detail">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_house_detail"
+                android:layout_width="0dp"
+                android:layout_height="210dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar_house_detail"
+                tools:background="@color/blue_200"
+                tools:ignore="NotSibling" />
+
+            <View
+                android:id="@+id/view_detail_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_house_detail_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_house_detail" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/view_detail_content"
+                app:layout_constraintStart_toStartOf="@id/view_detail_content"
+                app:layout_constraintTop_toTopOf="@id/view_detail_content"
+                tools:text="타이틀입니다." />
+
+            <ImageView
+                android:id="@+id/iv_house_detail_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_location"
+                app:layout_constraintStart_toStartOf="@id/view_detail_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_title" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#595959"
+                app:layout_constraintStart_toEndOf="@id/iv_house_detail_location"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_title"
+                tools:text="경상북도 영양군 일월면 칠성리" />
+
+            <ImageView
+                android:id="@+id/iv_house_detail_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_detail_bookmark"
+                app:layout_constraintStart_toEndOf="@id/tv_house_detail_location"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_title" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_bookmark_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/iv_house_detail_bookmark"
+                app:layout_constraintTop_toTopOf="@id/iv_house_detail_bookmark"
+                tools:text="12" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_house_detail_user_profile"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_house_detail_bookmark"
+                app:layout_constraintStart_toEndOf="@id/tv_house_detail_bookmark_count"
+                app:layout_constraintTop_toTopOf="@id/iv_house_detail_bookmark"
+                app:shapeAppearanceOverlay="@style/AppRoundedImage"
+                tools:background="@color/blue_500" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_house_detail_user_profile"
+                app:layout_constraintEnd_toEndOf="@id/view_detail_content"
+                app:layout_constraintStart_toEndOf="@+id/iv_house_detail_user_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_house_detail_user_profile"
+                tools:text="홍길동" />
+
+            <TextView
+                android:id="@+id/tv_information"
+                style="@style/AppTextTitle.S16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="18dp"
+                android:text="정보"
+                app:layout_constraintEnd_toEndOf="@id/view_detail_content"
+                app:layout_constraintStart_toStartOf="@id/view_detail_content"
+                app:layout_constraintTop_toBottomOf="@id/iv_house_detail_location" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_size"
+                style="@style/AppTextBody.S14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/tv_information"
+                app:layout_constraintStart_toStartOf="@id/tv_information"
+                app:layout_constraintTop_toBottomOf="@id/tv_information"
+                tools:text="평수 약 33평" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_room"
+                style="@style/AppTextBody.S14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_house_detail_size"
+                app:layout_constraintStart_toStartOf="@id/tv_house_detail_size"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_size"
+                tools:text="방 2개 화장실 1개 있습니다." />
+
+            <TextView
+                android:id="@+id/tv_house_detail_price"
+                style="@style/AppTextBody.S14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_house_detail_room"
+                app:layout_constraintStart_toStartOf="@id/tv_house_detail_room"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_room"
+                tools:text="가격: 2억부터" />
+
+            <TextView
+                android:id="@+id/tv_house_detail_content"
+                style="@style/AppTextBody.S14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_house_detail_price"
+                app:layout_constraintStart_toStartOf="@id/tv_house_detail_price"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_price"
+                tools:text="마을까지 걸어서 10분 거리로 편리합니다. \n귀농을 준비하거나 주말 농장을 운영하고 싶은\n분들에게 추천합니다." />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_keyword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="21dp"
+                app:chipSpacingHorizontal="8dp"
+                app:layout_constraintEnd_toEndOf="@id/tv_house_detail_content"
+                app:layout_constraintStart_toStartOf="@id/tv_house_detail_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_house_detail_content">
+
+                <!--                        <com.google.android.material.chip.Chip-->
+                <!--                            android:id="@+id/chip_active"-->
+                <!--                            style="@style/CustomChipStyle"-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="온순"-->
+                <!--                            android:textAlignment="center"-->
+                <!--                            android:translationY="-2dp" />-->
+
+                <!--                        <com.google.android.material.chip.Chip-->
+                <!--                            style="@style/CustomChipStyle"-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="활발"-->
+                <!--                            android:textAlignment="center"-->
+                <!--                            android:translationY="-2dp" />-->
+
+                <!--                        <com.google.android.material.chip.Chip-->
+                <!--                            style="@style/CustomChipStyle"-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="고집이 쎔"-->
+                <!--                            android:textAlignment="center"-->
+                <!--                            android:translationY="-2dp" />-->
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/tv_inner_photos"
+                style="@style/AppTextTitle.S16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="내부 사진"
+                app:layout_constraintEnd_toEndOf="@id/chip_group_keyword"
+                app:layout_constraintStart_toStartOf="@id/chip_group_keyword"
+                app:layout_constraintTop_toBottomOf="@id/chip_group_keyword" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_inner_photos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/view_detail_content"
+                app:layout_constraintStart_toStartOf="@id/view_detail_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_inner_photos" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
