@@ -163,7 +163,7 @@ fun HomeScreen(
 
               }
               OutlinedButton(
-                  onClick = {
+                  onClick = { 
                       // RegistrationActivity로 이동
                         val intent = Intent(context, RegistrationActivity::class.java)
                         startActivity(context, intent, null)
