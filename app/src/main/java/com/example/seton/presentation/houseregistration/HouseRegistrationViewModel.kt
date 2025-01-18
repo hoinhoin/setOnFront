@@ -1,6 +1,7 @@
-package com.example.seton
+package com.example.seton.presentation.houseregistration
 
 import androidx.lifecycle.ViewModel
+import com.example.seton.RegistrationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

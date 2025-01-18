@@ -1,4 +1,4 @@
-package com.example.seton
+package com.example.seton.presentation.houseregistration
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +28,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.seton.R
 
 @Composable
 fun HouseRegistrationScreen(

@@ -1,4 +1,4 @@
-package com.example.seton
+package com.example.seton.presentation.houseregistration
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
