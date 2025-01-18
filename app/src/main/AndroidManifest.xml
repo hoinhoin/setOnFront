@@ -27,6 +27,7 @@
         <activity android:name=".presentation.houseregistration.HouseRegistrationActivity" />
         <activity android:name=".presentation.signup.SignUpActivity" />
         <activity android:name=".presentation.housedetail.HouseDetailActivity" />
+        <activity android:name=".presentation.registration.RegistrationActivity" />
 <!--        <activity-->
 <!--            android:name=".presentation.registration.RegistrationActivity"-->
 <!--            android:exported="true"-->
