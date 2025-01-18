@@ -12,8 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SetOn"
         tools:targetApi="31">
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:theme="@style/Theme.SetOn">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity android:name=".presentation.houseregistration.HouseRegistrationActivity" />-->
+        <activity android:name=".presentation.signup.SignUpActivity" />
+        <activity android:name=".presentation.housedetail.HouseDetailActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.registration.RegistrationActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SetOn">
@@ -23,9 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.houseregistration.HouseRegistrationActivity" />
-        <activity android:name=".presentation.signup.SignUpActivity" />
-        <activity android:name=".presentation.housedetail.HouseDetailActivity" />
     </application>
 
 </manifest>

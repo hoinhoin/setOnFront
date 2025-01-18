@@ -6,6 +6,7 @@
     android:paddingHorizontal="4dp">
 
     <ImageView
+        android:id="@+id/iv_registration_photo"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
