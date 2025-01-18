@@ -64,6 +64,23 @@ fun HomeScreen(
           mutableStateOf(false)
       }
       val sheetState = rememberModalBottomSheetState()
+
+
+      //필터 조건 저장용 상태
+      var selectedMainRegion by remember { mutableStateOf<String?>(null) }
+      var selectedSubRegion by remember { mutableStateOf<String?>(null) }
+      var selectedLandArea by remember { mutableIntStateOf(0) }
+      var selectedPrice by remember { mutableIntStateOf(0) }
+
+      /*
+      // 필터링된 데이터
+      val filteredData = sampleData.filter { item ->
+          (selectedMainRegion == null || item.contains(selectedMainRegion!!)) &&
+                  (selectedSubRegion == null || item.contains(selectedSubRegion!!)) &&
+                  (item.contains("${selectedLandArea}평") || selectedLandArea == 0) &&
+                  (item.contains("${selectedPrice}만원") || selectedPrice == 0)
+      }*/
+
       Column(
           modifier = Modifier
               .fillMaxSize()
@@ -114,22 +131,40 @@ fun HomeScreen(
                       }
 
                   }
-
+                    /*
                   Column(
-                      verticalArrangement = Arrangement.Center,
+                      verticalArrangement = Arrangement.Bottom,
                       horizontalAlignment = Alignment.CenterHorizontally,
 
-                      ) {
+                      ){*/
 
-                  }
+                  //}
                   if (filterState.value) {
                       ModalBottomSheet(
                           onDismissRequest = {},
                           sheetState = sheetState
                       ) {
-                          FilterDialog()
+                          FilterDialog{ mainRegion, subRegion, landarea, price ->
+                              selectedMainRegion = mainRegion
+                              selectedSubRegion = subRegion
+                              selectedLandArea = landarea
+                              selectedPrice = price
+                              filterState.value = false
+                          }
                       }
                   }
+                  Spacer(modifier = Modifier.height(16.dp))
+
+
+              }
+              OutlinedButton(
+                  onClick = {  },
+                  //shape = RoundedCornerShape(10.dp),
+                  modifier = Modifier
+                      .align(Alignment.BottomCenter)
+                      .padding(bottom = 8.dp)
+              ){
+                  Text(text = "글쓰기")
               }
 
           }
@@ -141,7 +176,9 @@ fun HomeScreen(
 }
 
 @Composable
-fun FilterDialog() {
+fun FilterDialog(
+    onApplyFilter: (String?, String?, Int, Int) -> Unit //콜백추가
+) {
 
     val regions = listOf(
         "강원" to listOf("강릉시","고성군","동해시", "삼척시", "양구군", "양양군", "영월군", "원주시","인제군", "정선군", "철원군","춘천시"),
@@ -236,12 +273,28 @@ fun FilterDialog() {
                     value = sliderPosition,
                     onValueChange = {sliderPosition = it},
                     steps = 1000,
-                    valueRange = 0f .. 999f
+                    valueRange = 100f .. 999f
                 )
                 Text(
                     text = "${sliderPosition.toInt()} 만원",
                     modifier = Modifier.padding(top = 8.dp)
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ){
+                    OutlinedButton(
+                        onClick = { onApplyFilter(selectedMainRegion, selectedSubRegion, landarea, sliderPosition.toInt())},
+                        shape = RoundedCornerShape(10.dp),
+                        //modifier = Modifier.align(Alignment.BottomCenter)
+                    ){
+                        Text(text = "적용하기")
+                    }
+                }
+
 
             }
 
