@@ -100,7 +100,7 @@ class HouseDetailActivity : AppCompatActivity() {
             tvHouseDetailBookmarkCount.text = house.likeCount.toString()
             tvHouseDetailUserName.text = house.user.name
             tvHouseDetailSize.text = "평수 약 ${house.size}평"
-            tvHouseDetailPrice.text = "가격: ${house.price}만원"
+            tvHouseDetailPrice.text = "가격: ${house.price}원"
             tvHouseDetailContent.text = house.description
             currentPhoneNumber = house.phoneNumber
 

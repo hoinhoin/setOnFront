@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import com.example.seton.data.ApiResponse
 import com.example.seton.data.House
+import com.example.seton.data.LikedHousesResponse
+import com.example.seton.data.MyPageResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -34,6 +36,13 @@ interface ApiService {
 
     @POST("/houses/likes/{houseId}")
     suspend fun toggleLike(@Path("houseId") houseId: Long): Response<Unit>
+
+    @GET("/users/me/like")
+    suspend fun getLikedHouses(): Response<LikedHousesResponse>
+
+    @GET("/users/me")
+    suspend fun getMyPage(): Response<MyPageResponse>
+
 }
 
 fun createPartFromString(value: String): RequestBody {
