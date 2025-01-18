@@ -35,6 +35,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <data android:host="action" android:scheme="binzip" />
             </intent-filter>
         </activity>
     </application>

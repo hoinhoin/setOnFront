@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SetOn</string>
+    <string name="app_name">binzip</string>
 
     <string name="sign_in_id">아이디</string>
     <string name="sign_in_password">비밀번호</string>

@@ -41,14 +41,15 @@ class SignUpActivity : ComponentActivity() {
     private fun handleAppLink(intent: Intent) {
         intent.data?.let { uri: Uri ->
             when (uri.path) {
-                "/token" -> {
+                "/callback" -> {
                     // URI의 쿼리 파라미터를 가져옴
-                    val token = uri.getQueryParameter("t")
-                    val rtoken = uri.getQueryParameter("r")
+                    val token = uri.getQueryParameter("token")
+                    //val rtoken = uri.getQueryParameter("r")
 
                     // 토큰을 저장
                     if (token != null) {
                         // "token" 키로 토큰을 저장
+                        Log.d("SignUpActivity", "Token: $token")
                         val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
                         sharedPreferences.edit().apply {
                             putString("token", token)
